@@ -3,41 +3,41 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication32.Models;
+using WebApplication32.Data;
 
 namespace WebApplication32.Controllers
 {
     public class HomeController : Controller
     {
+        private string _connectionString = @"Data Source=.\sqlexpress;Initial Catalog=People;Integrated Security=True";
+        
         public IActionResult Index()
         {
-            return View();
+            PersonDb db = new PersonDb(_connectionString);
+            PeopleViewModel vm = new PeopleViewModel
+            {
+                People = db.GetPeople()
+            };
+            return View(vm);
         }
 
-        public IActionResult About()
+        [HttpPost]
+        public IActionResult AddPeople(List<Person> ppl)
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            PersonDb db = new PersonDb(_connectionString);
+            foreach (Person person in ppl)
+            {
+                db.AddPerson(person);
+            }
+            return Redirect("/");
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
+        public IActionResult AddPeople()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

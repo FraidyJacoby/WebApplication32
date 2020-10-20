@@ -1,0 +1,25 @@
+﻿
+
+<div class="row" style="margin-top:40px;">
+    <button id="add-button" class="btn btn-warning">Add another person</button>
+    <form method="post" action="/home/addpeople">
+        <div class="row well col-md-6 col-md-offset-2" id="my-form">
+            <div class="col-md-5">
+                <input id="first-name-0" type="text" class="form-control" name="ppl[0].firstName" placeholder="First name" />
+            </div>
+
+            <div class="col-md-5">
+                <input type="text" class="form-control" name="ppl[0].lastName" placeholder="Last name" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="ppl[0].age" placeholder="Age" />
+            </div>
+            <button id="submit-button" style="margin-top:25px;" class="btn btn-success">Submit</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/AddPeople.js"></script>
+}
